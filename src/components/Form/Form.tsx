@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { MoviesInputs } from '../../types';
 import Movie from '../Movie/Movie.tsx';
-import { useEffect } from 'react';
 
 const Form: React.FC = () => {
   const [title, setTitle] = React.useState('');
@@ -10,19 +9,23 @@ const Form: React.FC = () => {
   const addMovie = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const newMovie = { id: String(new Date()), title: title };
-
-    setMovies(prevState => [newMovie, ...prevState]);
-    setTitle('');
+    if(title.trim().length === 0) {
+      alert('Please enter a title');
+    } else {
+      setMovies(prevState => [{ id: String(new Date()), title: title }, ...prevState]);
+      setTitle('');
+    }
   };
 
   const deleteMovie = (id: string) => {
     setMovies(prevMovies => prevMovies.filter(movie => movie.id !== id));
-  }
+  };
 
-  useEffect(() => {
-    console.log('Форма отрисована');
-  }, []);
+  const updateMovie = (id: string, newTitle: string) => {
+    setMovies(prevMovies =>
+      prevMovies.map(movie => (movie.id === id ? { ...movie, title: newTitle } : movie))
+    );
+  };
 
 
   return (
@@ -39,7 +42,7 @@ const Form: React.FC = () => {
           <button type="submit" className="btn btn-outline-warning">Add</button>
         </div>
       </form>
-      <Movie movies={movies} onDeleteMovie={deleteMovie} />
+      <Movie movies={movies} onDeleteMovie={deleteMovie} onUpdateMovie={updateMovie} /> {/* Передаем функцию для обновления названия */}
     </>
   );
 };
