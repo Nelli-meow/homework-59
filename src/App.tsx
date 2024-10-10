@@ -1,13 +1,18 @@
 import './App.css'
 import Form from "./components/Form/Form.tsx";
+import { useState } from 'react';
+import Jokes from './containers/Jokes.tsx';
 
 
 const App = () => {
-
+const [page, setPage] = useState<boolean>(false);
 
   return (
     <>
-      <Form/>
+      <button onClick={() => setPage(!page)} className="btn btn-primary">Next ex</button>
+
+      {page ? <Jokes/> : <Form/>}
+
     </>
   )
 };
