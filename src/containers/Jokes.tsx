@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Button from './components/Button/Button.tsx';
 
-
 const Jokes = () => {
   const url = 'https://api.chucknorris.io/jokes/random';
   const [jokes, setJokes] = useState([]);
